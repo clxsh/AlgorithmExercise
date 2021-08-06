@@ -14,10 +14,10 @@ public:
                 left = mid + 1;
             }
             else if (nums[mid] == nums[right]) {
-                right;
+                --right;
             }
         }
 
-        return left;
+        return nums[left];
     }
 };

@@ -21,34 +21,73 @@ public:
     }
 };
 */
+// class Solution {
+// private:
+//     Node *pre, *head;
+// public:
+//     Node* treeToDoublyList(Node* root) {
+//         if (root == nullptr)
+//             return nullptr;
+
+//         dfs(root);
+//         head->left = pre;
+//         pre->right = head;
+
+//         return head;
+//     }
+    
+//     void dfs(Node *root)
+//     {
+//         if (root == nullptr)
+//             return;
+//         dfs(root->left);
+//         if (pre)
+//             pre->right = root;
+//         else
+//             head = root;
+//         root->left = pre;
+//         pre = root;
+//         dfs(root->right);
+//     }
+
+
+// };
+
 class Solution {
-private:
-    Node *pre, *head;
 public:
-    Node* treeToDoublyList(Node* root) {
+    Node* treeToDoublyList(Node* root)
+    {
         if (root == nullptr)
             return nullptr;
+            
+        Node *head = nullptr;
+        Node *pre = nullptr;
 
-        dfs(root);
+        stack<Node *> stk;
+        Node *cur = root;
+
+        while (cur != nullptr || !stk.empty()) {
+            while (cur != nullptr) {
+                stk.push(cur);
+                cur = cur->left;
+            }
+            cur = stk.top();
+            stk.pop();
+
+            if (pre == nullptr) {
+                head = cur;
+            }
+            else {
+                pre->right = cur;
+            }
+            cur->left = pre;            
+            pre = cur;
+
+            cur = cur->right;
+        }
         head->left = pre;
         pre->right = head;
 
         return head;
     }
-    
-    void dfs(Node *root)
-    {
-        if (root == nullptr)
-            return;
-        dfs(root->left);
-        if (pre)
-            pre->right = root;
-        else
-            head = root;
-        root->left = pre;
-        pre = root;
-        dfs(root->right);
-    }
-
-
 };

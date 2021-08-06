@@ -8,32 +8,23 @@
  * };
  */
 class Solution {
-int maxdep;
 private:
-    void work(TreeNode *root, int depth)
+    int gdepth;
+    void dfs(TreeNode *root, int depth)
     {
-        ++depth;
-        if (root->left) {
-            work(root->left, depth);
+        if (root == nullptr) {
+            gdepth = max(depth, gdepth);
+            return;
         }
-        else {
-            maxdep = max(depth, maxdep);
-        }
-
-        if (root->right) {
-            work(root->right, depth);
-        }
-        else {
-            maxdep = max(depth, maxdep);
-        }
+        dfs(root->left, depth + 1);
+        dfs(root->right, depth + 1);        
     }
-public:
-    int maxDepth(TreeNode* root) {
-        if (!root)
-            return 0;
-            
-        work(root, 0);
 
-        return maxdep;
+public:
+    int maxDepth(TreeNode* root)
+    {
+        dfs(root, 0);
+        
+        return gdepth;
     }
 };
