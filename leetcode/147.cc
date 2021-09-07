@@ -10,26 +10,32 @@
  */
 class Solution {
 public:
-    ListNode* insertionSortList(ListNode* head) {
-        ListNode *dummy = new ListNode(0, head);
-        ListNode *todo_pre = head;
-        ListNode *todo     = head->next;
+    ListNode* insertionSortList(ListNode* head)
+    {
+        if (head == nullptr || head->next == nullptr)
+            return head;
 
-        while (todo != nullptr) {
-            ListNode *pre = dummy;
-            ListNode *cur = pre->next;
-            ListNode *todo_next = todo->next;
-            while (cur->val < todo->val && cur != todo) {
-                pre = cur;
-                cur = cur->next;
+        ListNode dummy(0, head);
+        ListNode *lastSorted = head;
+        ListNode *cur = lastSorted->next;
+
+        while (cur != nullptr) {
+            if (lastSorted->val <= cur->val) {
+                // lastSorted = lastSorted->next;
+                lastSorted = cur;
             }
-            todo_pre->next = todo->next;
-            pre->next = todo;
-            todo->next = cur;
-
-            todo = todo_next;
+            else {
+                ListNode *t = &dummy;
+                while (t->next->val <= cur->val) {
+                    t = t->next;
+                }
+                lastSorted->next = cur->next;
+                cur->next = t->next;
+                t->next = cur;
+            }
+            cur = lastSorted->next;
         }
 
-        return dummy->next;
+        return dummy.next;
     }
 };
